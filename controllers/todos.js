@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
 
 // DELETE
 router.delete('/:id', (req, res) => {
-    postgres.query(`DELETE FROM todos WHERE id=${req.params.todo_id};` (err, deletedTodo) => {
+    postgres.query(`DELETE FROM todos WHERE id=${req.params.todo_id};`, (err, deletedTodo) => {
         postgres.query('SELECT * FROM todos ORDER BY id ASC;', (err, allTodos) => {
             res.json(allTodos.rows)
         })
