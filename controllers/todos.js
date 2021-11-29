@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 
 // CREATE
 router.post('/', (req, res) => {
-    postgres.query(`INSERT INTO todos (description, completed, todo_date) VALUES ('${req.body.description}', ${req.body.completed} ${req.body.current_timestamp});`, (err, createdTodo) => {
+    postgres.query(`INSERT INTO todos (description, completed, todo_date, user_id) VALUES ('${req.body.description}', ${req.body.completed}, ${req.body.todo_date}, ${req.body.user_id});`, (err, createdTodo) => {
         postgres.query('SELECT * FROM todos ORDER BY id ASC', (err, allTodos) => {
             res.json(allTodos)
         })
