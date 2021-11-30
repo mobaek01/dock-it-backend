@@ -1,7 +1,7 @@
-const Client = require('pg').Client
+const Pool = require('pg').Pool
 
 const dbConfig = {
-    connectionString: 'postgresql://localhost:5432/calendrit'
+    connectionString: 'postgresql://localhost:5432/calendrit',
 }
 
 if(process.env.DATABASE_URL){
@@ -9,6 +9,6 @@ if(process.env.DATABASE_URL){
     dbConfig.connectionString = process.env.DATABASE_URL
 }
 
-const client = new Client(dbConfig)
+const pool = new Pool(dbConfig)
 
-module.exports = client;
+module.exports = pool;
