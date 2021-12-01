@@ -8,8 +8,10 @@ CREATE TABLE users(
 
 CREATE TABLE todos(
     todo_id SERIAL PRIMARY KEY,
-    description VARCHAR(400),
-    completed BOOLEAN,
+    title VARCHAR(200),
+    description TEXT,
     todo_date DATE,
+    start_time TIME,
+    end_time TIME,
     user_id INTEGER REFERENCES users(user_id)
 );
