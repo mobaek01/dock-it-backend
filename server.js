@@ -11,6 +11,8 @@ app.use(cors())
 // CONTROLLERS
 const todoController = require('./controllers/todos.js')
 app.use('/todos', todoController)
+const userController = require('./controllers/users.js')
+app.use('/users', userController)
 
 // CONNECTIONS
 postgres.connect()

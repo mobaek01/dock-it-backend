@@ -1,13 +1,19 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
-const router = express.Router()
+const user = express.Router()
 const postgres = require('../postgres.js')
 
 // CREATE
-router.post('/', (req, res) => {
-    postgres.query(`INSERT INTO users (user_name, password) VALUES ('${req.body.description}', ${req.body.completed}, ${req.body.current_timestamp}, ${req.body.user_id});`, (err, createdTodo) => {
-        postgres.query('SELECT * FROM todos ORDER BY id ASC', (err, allTodos) => {
-            res.json(allTodos)
+user.post('/', (req, res) => {
+    // hashing password
+    // const salt = bcrypt.genSalt(10)
+    // let hashedPassword = bcrypt.hash(req.body.password, salt)
+    // creating username and password
+    postgres.query(`INSERT INTO users (user_name, password) VALUES ('${req.body.user_name}', '${req.body.password})`, (err, results) => {
+        postgres.query('SELECT * FROM users ORDER BY user_id ASC', (err, results) => {
+            res.json(results.rows)
         })
     })
 })
+
+module.exports = user;
