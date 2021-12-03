@@ -51,20 +51,18 @@ router.put('/login', (req, res) => {
     postgres.query(`SELECT * FROM users WHERE user_name='${req.body.user_name}';`, (err, foundUser) => {
         if(err) {
             console.log('Server ran into an error');
-            console.log('Server ran into an error');
         } else {
             if (foundUser.rows.length === 0){
                 console.log('User does not exist');
-                res.json({error:'User does not exist'});
+                res.json({error:'User does not exist, please try again'});
             } else {
                 bcrypt.compare(req.body.password, foundUser.rows[0].password, (err, passwordMatched) => {
                     if (err) {
                         console.log('Server ran into an error');
-                        console.log('Server ran into an error');
                     } else {
                         if (!passwordMatched) {
                             console.log('Password is incorrect');
-                            res.json({error:'Password is incorrect'});
+                            res.json({error:'Password is incorrect, please try again'});
                         } else {
                             console.log('Success');
                             res.json(foundUser.rows);
