@@ -46,6 +46,18 @@ router.post('/userCreate', (req, res) => {
 //         }
 //     })
 // })
+
+// router.post('/login',(req, res) => {
+//     //USERNAME CHECK
+//     const {user_name, password} = req.body
+//     const users = postgres.query('SELECT * FROM users WHERE user_name = $1', [user_name])
+//     if(users.rows.length === 0) return res.status(401).json({error : "Email is incorrect"})
+//     //PASSWORD CHECK
+//     const validPassword = bcrypt.compare(password, users.rows[0].password)
+//     if(!validPassword) return res.status(401).json({error : "Incorrect password"})
+//     return res.status(200).json("Success")
+// })
+
 // followed documentation: https://github.com/kelektiv/node.bcrypt.js#to-check-a-password
 router.put('/login', (req, res) => {
     postgres.query(`SELECT * FROM users WHERE user_name='${req.body.user_name}';`, (err, foundUser) => {
@@ -74,16 +86,7 @@ router.put('/login', (req, res) => {
     })
 })
 
-// router.post('/login',(req, res) => {
-//     //USERNAME CHECK
-//     const {user_name, password} = req.body
-//     const users = postgres.query('SELECT * FROM users WHERE user_name = $1', [user_name])
-//     if(users.rows.length === 0) return res.status(401).json({error : "Email is incorrect"})
-//     //PASSWORD CHECK
-//     const validPassword = bcrypt.compare(password, users.rows[0].password)
-//     if(!validPassword) return res.status(401).json({error : "Incorrect password"})
-//     return res.status(200).json("Success")
-// })
+
 
 // FIND USERS
 router.get('/userCreate', (req, res) => {
@@ -95,15 +98,15 @@ router.get('/userCreate', (req, res) => {
 
 //////////////////////////////////////// TODOS ////////////////////////////////////////
 // READ
-router.get('/', (req, res) => {
-    postgres.query('SELECT * FROM todos ORDER BY todo_id ASC;', (err, results) => {
+router.get('/:user_id', (req, res) => {
+    postgres.query(`SELECT * FROM todos WHERE user_id=${req.params.user_id} ORDER BY todo_id ASC;`, (err, results) => {
         res.json(results.rows)
     })
 })
 
 // CREATE
 router.post('/', (req, res) => {
-    postgres.query(`INSERT INTO todos (title, description, todo_date, start_time, end_time) VALUES ('${req.body.title}', '${req.body.description}', '${req.body.todo_date}', '${req.body.start_time}', '${req.body.end_time}');`, (err, results) => {
+    postgres.query(`INSERT INTO todos (title, description, todo_date, start_time, end_time, user_id) VALUES ('${req.body.title}', '${req.body.description}', '${req.body.todo_date}', '${req.body.start_time}', '${req.body.end_time}', ${req.body.user_id});`, (err, results) => {
         postgres.query('SELECT * FROM todos ORDER BY todo_id ASC', (err, results) => {
             res.json(results.rows)
         })

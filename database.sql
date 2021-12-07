@@ -13,5 +13,5 @@ CREATE TABLE todos(
     todo_date DATE,
     start_time TIME,
     end_time TIME,
-    user_id INTEGER REFERENCES users(user_id)
+    user_id INTEGER
 );
