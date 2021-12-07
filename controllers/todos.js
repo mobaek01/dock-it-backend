@@ -24,7 +24,7 @@ router.post('/userCreate', (req, res) => {
         bcrypt.hash(req.body.password, salt, (err, hash) => {
             postgres.query(`INSERT INTO users (user_name, password) VALUES ('${req.body.user_name}', '${hash}')`, (err, results) => {
                 postgres.query('SELECT * FROM users ORDER BY user_id ASC', (err, results) => {
-                    res.json(results.rows)
+                    res.json({message:'The account has been created', data:results.rows})
                 })
             })
         })
